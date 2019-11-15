@@ -37,12 +37,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin()
+    public function prospects()
     {
-        return $this->role['name'] == 'isAdmin';
+        return $this->hasMany('App\Prospect');
     }
 
-    public function isSuperAdmin(){
-        return $this->role['name'] == 'isSuperAdmin';
+    public function isAdmin()
+    {
+        return $this->role == 'Admin';
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role == 'superAdmin';
+    }
+
+    public function isAgent()
+    {
+        return $this->role == 'agent';
     }
 }

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use App\Prospect;
+use Auth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProspectPolicy
@@ -16,10 +17,24 @@ class ProspectPolicy
      * @param  \App\User  $user
      * @return mixed
      */
+
+    public function allProspects()
+    {
+        return Auth::User()->isSuperAdmin() || Auth::User()->isAdmin();
+    }
+
+    public function myProspects()
+    {
+        return Auth::User()->isAgent();
+    }
+
+
+
     public function viewAny(User $user)
     {
-        //
+        
     }
+
 
     /**
      * Determine whether the user can view the prospect.

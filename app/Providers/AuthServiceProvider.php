@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
-        Prospect::class => ProspectPolicy::class,
+        
     ];
 
     /**
@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('update', 'ProspectPolicy@update');
+        Gate::define('allProspects', 'App\Policies\ProspectPolicy@allProspects');
 
 
     }
