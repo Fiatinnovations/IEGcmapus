@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'avatar'
     ];
 
     /**
@@ -54,6 +54,6 @@ class User extends Authenticatable
 
     public function isAgent()
     {
-        return $this->role == 'agent';
+        return $this->role == 'agent'; 
     }
 }

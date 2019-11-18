@@ -10,11 +10,12 @@ class University extends Model
 
     public function prospect()
     {
-        return $this->belongsTo('App\Prospect');
+        return $this->hasMany('App\Prospect');
     }
 
     public function courses()
     {
-        return $this->hasMany('App\Course');
+        return $this->hasMany('App\Courses');
     }
+
 }

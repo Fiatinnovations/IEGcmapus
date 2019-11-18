@@ -19,12 +19,12 @@ class ProspectPolicy
      */
 
     public function allProspects()
-    {
+    {      
         return Auth::User()->isSuperAdmin() || Auth::User()->isAdmin();
     }
 
     public function myProspects()
-    {
+    {     
         return Auth::User()->isAgent();
     }
 
@@ -56,7 +56,7 @@ class ProspectPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isAgent();
     }
 
     /**
@@ -68,7 +68,9 @@ class ProspectPolicy
      */
     public function update(User $user, Prospect $prospect)
     {
-        return $user->id === $prospect->user_id;
+        return $user->id === $prospect->user_id 
+        ? Response::allow() 
+        : Response::deny('The prospect must be yours');
     }
 
     /**

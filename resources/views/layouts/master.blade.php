@@ -96,7 +96,11 @@
                 </ul>
               </li>
               <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online"><img src="/assets/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span class="user-name">{{Auth::User()->name}} &nbsp; <i class="fas fa-angle-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a><a class="dropdown-item" href="email-application.html"><i class="ft-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a><a class="dropdown-item" href="chat-application.html"><i class="ft-message-square"></i> Chats</a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a>
+                <a class="dropdown-item" href="{{route('allProspects')}}"> <div class="badge badge-pill badge-primary">{{Auth::User()->prospects()->count()}}</div> &nbsp; Prospects</a>
+                  <a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a>
+                  <a class="dropdown-item" href="chat-application.html"><i class="ft-message-square"></i> Chats</a>
                 <div class="dropdown-divider"></div><a class="dropdown-item" href="{{route('logout')}}"
                 onclick = "event.preventDefault();
                 document.getElementById('logout-form').submit();" 
@@ -117,11 +121,37 @@
     <div class="main-menu menu-fixed menu-dark menu-accordion    menu-shadow " data-scroll-to-active="true">
       <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-          <li class=" nav-item"><a href="index-2.html"><i class="fab fa-angellist"></i><span class="menu-title" data-i18n="nav.dash.main">AGENT</span><span class="  float-right mr-2"><i class="fas fa-angle-down"></i></span> </a>
+          <li class=" nav-item">
+            <a href="javascript:void(0)">
+            <i class="fab fa-angellist"></i>
+            @switch(Auth::User()->role)
+                @case('Admin')
+                   <span class="menu-title" data-i18n="nav.dash.main">ADMIN</span> 
+                    @break
+                @case('agent')
+                    <span class="menu-title" data-i18n="nav.dash.main">AGENT</span>
+                    @break
+                @case('superAdmin')
+                    <span class="menu-title" data-i18n="nav.dash.main">Super Admin</span>
+                @break
+                @default
+                    
+            @endswitch
+            
+            <span class="  float-right mr-2"><i class="fas fa-angle-down"></i></span>
+           </a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="dashboard-ecommerce.html" data-i18n="nav.dash.ecommerce">Create a Prospect</a>
-              </li>
-              <li><a class="menu-item" href="dashboard-project.html" data-i18n="nav.dash.project">My Prospects</a>
+              @can('create', Prospect::class)
+            <li><a class="menu-item" href="{{route('createProspect')}}" data-i18n="nav.dash.ecommerce">Create a Prospect</a>  
+              @endcan 
+              </li> 
+              @switch(Auth::User()->role)
+                  @case('agent')
+                      <li><a class="menu-item" href="" data-i18n="nav.dash.project">My Prospects</a>
+                      @break
+                  @default
+                       <li><a class="menu-item" href="" data-i18n="nav.dash.project">All Prospects</a>
+              @endswitch
               </li>
               <li><a class="menu-item" href="dashboard-analytics.html" data-i18n="nav.dash.analytics">Conditionally Offered</a>
               </li>
@@ -143,6 +173,75 @@
       <div class="content-wrapper">
         <div class="content-header row">
         </div>
+        <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                            <div class="pb-1">
+                                <div class="clearfix mb-1">
+                                    <i class="icon-star font-large-1 blue-grey float-left mt-1"></i>
+                                <span class="font-large-2 text-bold-300 info float-right">{{Auth::User()->prospects()->count()}}</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="text-muted">Prospects</span>
+                                </div>
+                            </div>
+                            <div class="progress mb-0" style="height: 7px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                            <div class="pb-1">
+                                <div class="clearfix mb-1">
+                                    <i class="icon-user font-large-1 blue-grey float-left mt-1"></i>
+                                    <span class="font-large-2 text-bold-300 danger float-right">3</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="text-muted">Conditional Admission</span>
+                                </div>
+                            </div>
+                            <div class="progress mb-0" style="height: 7px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                            <div class="pb-1">
+                                <div class="clearfix mb-1">
+                                    <i class="icon-shuffle font-large-1 blue-grey float-left mt-1"></i>
+                                    <span class="font-large-2 text-bold-300 success float-right">1</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="text-muted">Offered Admission</span>
+                                </div>
+                            </div>
+                            <div class="progress mb-0" style="height: 7px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-12">
+                            <div class="pb-1">
+                                <div class="clearfix mb-1">
+                                    <i class="icon-wallet font-large-1 blue-grey float-left mt-1"></i>
+                                    <span class="font-large-2 text-bold-300 warning float-right">$6,87M</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="text-muted">Profit</span>
+                                    <span class="warning float-right"><i class="ft-arrow-up warning"></i> 43.84%</span>
+                                </div>
+                            </div>
+                            <div class="progress mb-0" style="height: 7px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <div class="content-body">          
               @yield('content')
 	        </div>
@@ -158,7 +257,7 @@
     <script src="/assets/app-assets/js/core/app-menu.min.js"></script>
     <script src="/assets/app-assets/js/core/app.min.js"></script>
     <script src="/assets/app-assets/js/scripts/pickers/dateTime/pick-a-datetime.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
   </body>
 
 </html>

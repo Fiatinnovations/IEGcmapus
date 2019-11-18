@@ -17,4 +17,20 @@ class Course extends Model
     {
         return $this->belongsTo('App\University');
     }
+
+    public function scopeFirstuni($query)
+    {
+        return $query->where('university_id', 1);
+
+    }
+
+    public function scopeSeconduni($query)
+    {
+        return $query->where('university_id', 2);
+    }
+
+    public function scopeThirduni($query)
+    {
+        return $query->where('university_id', 3);
+    }
 }

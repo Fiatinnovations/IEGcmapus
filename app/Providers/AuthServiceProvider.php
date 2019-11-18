@@ -28,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('update', 'ProspectPolicy@update');
         Gate::define('allProspects', 'App\Policies\ProspectPolicy@allProspects');
+        Gate::define('create', 'App\Policies\ProspectPolicy@create');
 
 
     }
