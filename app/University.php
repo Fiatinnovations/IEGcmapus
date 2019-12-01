@@ -8,7 +8,7 @@ class University extends Model
 {
     protected $fillable = ['name'];
 
-    public function prospect()
+    public function prospects()
     {
         return $this->hasMany('App\Prospect');
     }
@@ -17,5 +17,4 @@ class University extends Model
     {
         return $this->hasMany('App\Courses');
     }
-
 }

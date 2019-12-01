@@ -2,6 +2,27 @@
 
 @section('content')
 
+<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-3"></div>
+				<div class="col-md-4 mb-3">
+						<div>
+								@if ($errors->any())
+							<div class="alert alert-danger">
+							   <ul>
+									 @foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									 @endforeach
+							   </ul>
+						 @endif
+						 </div>
+						</div>	
+				</div>
+				<div class="col-md-4 mb-3"></div>
+			</div>
+		</div>
+	</section>
 
 <section>
     <div class="container">
@@ -11,99 +32,60 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal">
+							
+							
+								
+                    {!! Form::open(['method' =>'POST', 'action' =>'ProspectController@store', 'files' => 'true']) !!}
 	                    	<div class="form-body">
 	                    		<h4 class="form-section"><i class="ft-user"></i>Create a Prospect</h4>
 			                    <div class="form-group row">
-	                            	<label class="col-md-3 label-control" for="projectinput1">Title</label>
+	                            	<label class="col-md-3 label-control">Title</label>
 		                            <div class="col-md-9">
 		                            {!! Form::select('title_id', $titles, null, ['class' => 'form-control']) !!}
 		                            </div>
 		                        </div>
 		                        <div class="form-group row">
-	                            	<label class="col-md-3 label-control" for="projectinput2">Gender</label>
+	                            	<label class="col-md-3 label-control">Gender</label>
 									<div class="col-md-9">
 	                            		{!! Form::select('gender_id', $genders, null, ['class' => 'form-control']) !!}
 	                            	</div>
 		                        </div>
                                 <div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput3">First Name</label>
+		                            <label class="col-md-3 label-control">First Name</label>
 		                            <div class="col-md-9">
 		                            	{!! Form::text('first_name', null, ['class'=>'form-control']) !!}
 		                            </div>
-		                        </div>
+								</div>
+								<div class="form-group row">
+										<label class="col-md-3 label-control">Last Name</label>
+										<div class="col-md-9">
+											{!! Form::text('last_name', null, ['class'=>'form-control']) !!}
+										</div>
+									</div>
 		                        <div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput3">E-mail</label>
+		                            <label class="col-md-3 label-control">E-mail</label>
 		                            <div class="col-md-9">
 		                            	{!! Form::email('email', null, ['class' => 'form-control']) !!}
 		                            </div>
 		                        </div>
 
 		                        <div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput4">University</label>
+		                            <label class="col-md-3 label-control">University</label>
 		                            <div class="col-md-9">
-		                            	{!! Form::select('university_id', $universities, null, ['class' => 'form-control', 'placeholder' => 'Choose a Univerity', 'id'=>'what_university']) !!}
+		                            	{!! Form::select('university_id', $universities, null, ['class' => 'form-control', 'placeholder' => 'Choose a University', 'id'=>'what_university']) !!}
 		                            </div>
-								</div>
-								<div id="forFirst" style="display:none;">
-								<div class="form-group row" >
-		                            <label class="col-md-3 label-control" for="projectinput4">Courses</label>
-		                            <div class="col-md-9">
-		                            	{!! Form::select('course_id', $first_uni_courses, null, ['class' => 'form-control', 'placeholder' => 'Choose a Course']) !!}
-		                            </div>
-                                </div>
-
-                                <div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput4">Date of Birth</label>
-		                            <div class="col-md-9">
-		                            	{!! Form::date('dob', null, ['class' => 'form-control']) !!}
-		                            </div>
-								</div>
-
-								<div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput4">Adress</label>
-		                            <div class="col-md-9">
-		                            	{!! Form::text('address', null, ['class' => 'form-control']) !!}
-		                            </div>
-								</div>
-
-								<div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput4">Adress</label>
-		                            <div class="col-md-9">
-		                            	{!! Form::file('certificate', ['class' => 'form-control']) !!}
-		                            </div>
-								</div>
-
-								</div>
-
-								<div id="forSecond" style="display:none;">
-									<div class="form-group row" >
-		                              <label class="col-md-3 label-control" for="projectinput4">Courses</label>
-		                               <div class="col-md-9">
-		                            	{!! Form::select('course_id', $second_uni_courses, null, ['class' => 'form-control', 'placeholder' => 'Choose a Course']) !!}
-		                               </div>
 								</div>
 								
-								<div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput4">Transcript</label>
-		                            <div class="col-md-9">
-		                            	{!! Form::file('transcript', ['class' => 'form-control']) !!}
-		                            </div>
-								</div>
 
-								<div class="form-group row">
-		                            <label class="col-md-3 label-control" for="projectinput4">Resume</label>
-		                            <div class="col-md-9">
-		                            	{!! Form::file('resume', ['class' => 'form-control']) !!}
-		                            </div>
-								</div>
+								
+
 								</div>
 
 
-	                        <div class=" float-right" style="padding-bottom:20px;">
-	                            <button type="submit" class="btn btn-primary">
-	                                <i class="fa fa-check-square-o"></i> Save
-	                            </button>
+
+							<div class=" float-right" style="padding-bottom:20px;">
+							<div onclick="getCourseId()">{!! Form::submit('Create Prospect', ['class' => 'btn btn-primary']) !!}</div>	
+	                        
 	                        </div>
 	                    </form>
  
@@ -114,7 +96,7 @@
             <div class="col-md-1 mb-3"></div>
         </div>
     </div>
-</section>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script>
@@ -122,20 +104,38 @@
         switch ($(this).val()) {
             case "1":
                   $("#forFirst").show(); 
-				  $("#forSecond").hide();    
+				  $("#forSecond").hide();
+				  $("#cambridgecourses").removeAttr("required", "required");
+				  $("#address").removeAttr("required", "required");
+				  $("#transcript").removeAttr("required", "required");
+				  $("#forThird").hide();
+				  $("#coo").removeAttr("required", "required");
+				  $("#coocourses").removeAttr("required", "required");				  
                 break;
-
             case "2":
 				  $("#forSecond").show();
-				  $("#forFirst").hide();	
+				  $("#forFirst").hide();
+				  $("#yalecourses").removeAttr("required", "required");
+				  $("#dob").removeAttr("required", "required");
+				  $("#certificate").removeAttr("required", "required");	
+				  $('#forThird').show();
+				  $('#forThird').hide();
+				  $("#coo").removeAttr("required", "required");
+				  $("#coocourses").removeAttr("required", "required");
                 break;
-
             case "3":
-
+				  $('#forThird').show();
+				  $("#forSecond").hide();
+				  $("#cambridgecourses").removeAttr("required", "required");
+				  $("#address").removeAttr("required", "required");
+				  $("#transcript").removeAttr("required", "required");
+				  $("#forFirst").hide();
+				  $("#yalecourses").removeAttr("required", "required");
+				  $("#dob").removeAttr("required", "required");
+				  $("#certificate").removeAttr("required", "required");
+				  
                 break;
-
             case "4":
-
                 break;
         
             default:
@@ -145,4 +145,16 @@
         }
     })
 </script>
+
+<script>
+
+function getCourseId(){
+	var cambridgecourses = document.getElementById('cambridgecourses').val;
+	var yalecourses = document.getElementById('yalecourses').val;
+	console.log(cambridgecourses);
+}
+
+</script>
+
+</section>
 @endsection

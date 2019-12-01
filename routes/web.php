@@ -21,3 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/prospects', 'ProspectController@index')->name('allProspects');
 Route::get('/create', 'ProspectController@create')->name('createProspect');
+Route::post('/create', 'ProspectController@store')->name('saveProspect');
