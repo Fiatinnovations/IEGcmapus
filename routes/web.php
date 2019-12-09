@@ -20,5 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/prospects', 'ProspectController@index')->name('allProspects');
+Route::get('/cambridgeform/{slug}', 'ProspectController@ShowFirstUniversity')->name('firstUni');
+Route::get('/yaleform/{slug}', 'ProspectController@ShowSecondUniversity')->name('secondUni');
+Route::put('/updateyale/{id}', 'ProspectController@UpdateSecondUni')->name('yaleupdate')->where('id', '\d+');
+Route::put('/updatecambridge/{id}', 'ProspectController@UpdateFirstUni')->name('cambridgeupdate')->where('id', '\d+');
 Route::get('/create', 'ProspectController@create')->name('createProspect');
 Route::post('/create', 'ProspectController@store')->name('saveProspect');
+Route::get('/profile/{slug}', 'ProspectController@ViewProspect')->name('prospect');
+Route::get('/delete/{slug}', 'ProspectController@DeleteProspect')->name('deleteprospect');

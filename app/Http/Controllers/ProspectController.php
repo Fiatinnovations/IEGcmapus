@@ -7,11 +7,16 @@ use App\Prospect;
 use App\Title;
 use App\Gender;
 use App\Course;
+use App\Http\Requests\FirstUniversityRequest;
 use App\University;
+use App\status;
+use App\qualification;
 use Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProspectStoreRequest;
+use App\Http\Requests\SecondUniversityRequest;
+use App\Policies\ProspectPolicy;
 
 class ProspectController extends Controller
 {
@@ -41,15 +46,12 @@ class ProspectController extends Controller
 
         $titles = Title::pluck('name', 'id')->all();
         $genders = Gender::pluck('name', 'id')->all();
-        $first_uni_courses = Course::firstuni()->pluck('name', 'id')->all();
-        $second_uni_courses = Course::seconduni()->pluck('name', 'id')->all();
-        $third_uni_courses = Course::thirduni()->pluck('name', 'id')->all();
         $universities = University::pluck('name', 'id')->all();
-        return view('prospects.create', compact('titles', 'genders', 'third_uni_courses', 'first_uni_courses', 'second_uni_courses', 'universities'));
+        return view('prospects.create', compact('titles', 'genders', 'third_uni_courses',  'universities'));
     }
 
 
-    public function store(ProspectStoreRequest $request)
+    public function store(ProspectStoreRequest $request, Prospect $prospet)
     {
         if (Gate::allows('create')) {
 
@@ -72,9 +74,131 @@ class ProspectController extends Controller
             $prospect->university_id = $university_id;
             $prospect->slug = $name;
 
-            if ($request->user()->prospects()->save($prospect)) {
-                return redirect()->route('home')->with(['message' => 'Prospect Created Successfully']);
+            switch ($prospect->university_id) {
+                case '1':
+
+                    if ($request->user()->prospects()->save($prospect)) {
+                        return redirect()->route('firstUni', $prospect->slug)->with(['message' => 'Prospect Created Successfully']);
+                    }
+                    break;
+                case '2':
+
+                    if ($request->user()->prospects()->save($prospect)) {
+                        return redirect()->route('secondUni', $prospect->slug)->with(['message' => 'Prospect Created Successfully']);
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
     }
+
+
+
+    public function ShowFirstUniversity(Request $request, $slug)
+    {
+        $qualifications = qualification::pluck('name', 'id')->all();
+        $first_uni_courses = Course::firstuni()->pluck('name', 'id')->all();
+        $prospect = Prospect::where('slug', $slug)->first();
+        return view('prospects.universityform', compact('prospect', 'qualifications', 'first_uni_courses'));
+    }
+
+    public function UpdateFirstUni(FirstUniversityRequest $request, $id)
+    {
+
+
+        if ($request->hasFile('certificate')) {
+            $allowedFileExtension = ['pdf', 'jpg', 'doc', 'docx'];
+            $file = $request->file('certificate');
+            $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $check = in_array($extension, $allowedFileExtension);
+
+            if ($check) {
+                $file->move('public/uploads/certificates', $filename);
+                $prospect = Prospect::findOrFail($id);
+                $prospect->update([
+                    'qualification_id' => $request->input('qualification_id'),
+                    'status_id' => $request->input('status_id'),
+                    'citizenship' => $request->input('citizenship'),
+                    'course_id' => $request->input('course_id'),
+                    'experience' => $request->input('experience'),
+                    'referee' => $request->input('referee'),
+                    'address' => $request->input('address'),
+                    'passport' => $request->input('passport')
+                ]);
+
+                $prospect->certificate = $filename;
+                $prospect->save();
+                return redirect()->route('home');
+            }
+        }
+    }
+
+
+    public function ShowSecondUniversity(Request $request, $slug)
+    {
+        $qualifications = qualification::pluck('name', 'id')->all();
+        $second_uni_courses = Course::seconduni()->pluck('name', 'id')->all();
+        $status = status::pluck('name', 'id')->all();
+        $prospect = Prospect::where('slug', $slug)->first();
+        return view('prospects.otheruniversityform', compact('prospect', 'qualifications', 'status', 'second_uni_courses'));
+    }
+
+
+
+    public function UpdateSecondUni(SecondUniversityRequest $request, $id)
+    {
+        if($request->hasFile('transcript')){
+            $allowedFileExtension = ['jpg', 'pdf', 'doc', 'docx'];
+            $file = $request->file('transcript');
+            $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $check = in_array($extension, $allowedFileExtension);
+
+            if($check){
+                $file->move('public/uploads/transcripts', $filename);
+                $prospect = Prospect::findOrFail($id);
+                $prospect->update([
+                    'qualification_id' => $request->input('qualification_id'),
+                    'course_id' => $request->input('course_id'),
+                    'referee' => $request->input('referee'),
+                    'status_id' => $request->input('status_id'),
+                    'citizenship' => $request->input('citizenship'),
+                    'dob' => $request->input('dob'),
+                ]);
+
+                $prospect->transcript = $filename;
+                $prospect->save();
+                return redirect()->route('home');
+
+            }
+
+        }
+        
+    }
+
+    public function ViewProspect($slug)
+    {
+        $prospect = Prospect::where('slug', $slug)->first();
+        return view('prospects.show', compact('prospect'));
+
+    }
+
+    public function DeleteProspect($slug)
+    {
+        $prospect = Prospect::where('slug', $slug);
+        $prospect->delete();
+        return redirect()->route('allProspects')->with(['message' => 'Prospect deleted Successfully']);
+    }
+
+    public function ProspectUpdate($slug)
+    {
+
+    }
+
+
+   
+    
 }

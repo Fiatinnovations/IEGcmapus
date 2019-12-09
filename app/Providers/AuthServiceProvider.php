@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use App\Prospect;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -14,7 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
-        
+
     ];
 
     /**
@@ -29,7 +30,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update', 'ProspectPolicy@update');
         Gate::define('allProspects', 'App\Policies\ProspectPolicy@allProspects');
         Gate::define('create', 'App\Policies\ProspectPolicy@create');
-
-
     }
 }

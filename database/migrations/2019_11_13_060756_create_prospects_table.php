@@ -30,7 +30,13 @@ class CreateProspectsTable extends Migration
             $table->string('slug');
             $table->string('certificate')->nullable();
             $table->string('transcript')->nullable();
-            $table->string('resume')->nullable();
+            $table->integer('qualification_id')->index()->unsigned()->nullable();
+            $table->string('experience')->nullable();
+            $table->string('referee')->nullable();
+            $table->string('passport')->nullable();
+            $table->integer('status_id')->index()->unsigned()->nullable();
+            $table->string('citizenship')->nullable();
+
             $table->timestamps();
         });
     }

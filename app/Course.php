@@ -21,7 +21,6 @@ class Course extends Model
     public function scopeFirstuni($query)
     {
         return $query->where('university_id', 1);
-
     }
 
     public function scopeSeconduni($query)

@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Prospect extends Model
 {
     protected $fillable =
-     [
+    [
         'title_id', 'user_id', 'gender_id', 'university_id', 'course_id',
         'first_name', 'last_name', 'email', 'avatar', 'dob', 'address',
-        'slug', 'certificate', 'transcript', 'resume'
-     ];
+        'slug', 'certificate', 'transcript', 'qualification_id', 'experience',
+        'referee', 'passport', 'status_id', 'citizenship'
+    ];
 
     public function user()
     {

@@ -17,7 +17,7 @@
 							   </ul>
 						 @endif
 						 </div>
-						</div>	
+						</div>
 				</div>
 				<div class="col-md-4 mb-3"></div>
 			</div>
@@ -32,11 +32,12 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-							
-							
-								
-                    {!! Form::open(['method' =>'POST', 'action' =>'ProspectController@store', 'files' => 'true']) !!}
+
+
+
+                    {!! Form::open([ 'id'=>'myform', 'method' => 'Post', 'action' => 'ProspectController@store']) !!}
 	                    	<div class="form-body">
+
 	                    		<h4 class="form-section"><i class="ft-user"></i>Create a Prospect</h4>
 			                    <div class="form-group row">
 	                            	<label class="col-md-3 label-control">Title</label>
@@ -53,13 +54,13 @@
                                 <div class="form-group row">
 		                            <label class="col-md-3 label-control">First Name</label>
 		                            <div class="col-md-9">
-		                            	{!! Form::text('first_name', null, ['class'=>'form-control']) !!}
+		                            	{!! Form::text('first_name', null, ['class'=>'form-control', 'id' => 'firstname']) !!}
 		                            </div>
 								</div>
 								<div class="form-group row">
 										<label class="col-md-3 label-control">Last Name</label>
 										<div class="col-md-9">
-											{!! Form::text('last_name', null, ['class'=>'form-control']) !!}
+											{!! Form::text('last_name', null, ['class'=>'form-control', 'id' => 'lastname']) !!}
 										</div>
 									</div>
 		                        <div class="form-group row">
@@ -75,20 +76,19 @@
 		                            	{!! Form::select('university_id', $universities, null, ['class' => 'form-control', 'placeholder' => 'Choose a University', 'id'=>'what_university']) !!}
 		                            </div>
 								</div>
-								
 
-								
+
+
 
 								</div>
 
 
 
 							<div class=" float-right" style="padding-bottom:20px;">
-							<div onclick="getCourseId()">{!! Form::submit('Create Prospect', ['class' => 'btn btn-primary']) !!}</div>	
-	                        
+							<div>{!! Form::submit('Create Prospect', ['class' => 'btn btn-primary']) !!}</div>
+
 	                        </div>
-	                    </form>
- 
+
                         </div>
                     </div>
                 </div>
@@ -99,60 +99,13 @@
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>
-    $("#what_university").on("change", function(){
-        switch ($(this).val()) {
-            case "1":
-                  $("#forFirst").show(); 
-				  $("#forSecond").hide();
-				  $("#cambridgecourses").removeAttr("required", "required");
-				  $("#address").removeAttr("required", "required");
-				  $("#transcript").removeAttr("required", "required");
-				  $("#forThird").hide();
-				  $("#coo").removeAttr("required", "required");
-				  $("#coocourses").removeAttr("required", "required");				  
-                break;
-            case "2":
-				  $("#forSecond").show();
-				  $("#forFirst").hide();
-				  $("#yalecourses").removeAttr("required", "required");
-				  $("#dob").removeAttr("required", "required");
-				  $("#certificate").removeAttr("required", "required");	
-				  $('#forThird').show();
-				  $('#forThird').hide();
-				  $("#coo").removeAttr("required", "required");
-				  $("#coocourses").removeAttr("required", "required");
-                break;
-            case "3":
-				  $('#forThird').show();
-				  $("#forSecond").hide();
-				  $("#cambridgecourses").removeAttr("required", "required");
-				  $("#address").removeAttr("required", "required");
-				  $("#transcript").removeAttr("required", "required");
-				  $("#forFirst").hide();
-				  $("#yalecourses").removeAttr("required", "required");
-				  $("#dob").removeAttr("required", "required");
-				  $("#certificate").removeAttr("required", "required");
-				  
-                break;
-            case "4":
-                break;
-        
-            default:
-				$("#forSecond").hide();
-				$("#forFirst").hide();
-                break;
-        }
-    })
-</script>
+
 
 <script>
 
-function getCourseId(){
-	var cambridgecourses = document.getElementById('cambridgecourses').val;
-	var yalecourses = document.getElementById('yalecourses').val;
-	console.log(cambridgecourses);
-}
+
+
+
 
 </script>
 

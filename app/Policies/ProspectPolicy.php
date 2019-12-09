@@ -6,11 +6,12 @@ use App\User;
 use App\Prospect;
 use Auth;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Response;
 
 class ProspectPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any prospects.
      *
@@ -19,21 +20,19 @@ class ProspectPolicy
      */
 
     public function allProspects()
-    {      
+    {
         return Auth::User()->isSuperAdmin() || Auth::User()->isAdmin();
     }
 
     public function myProspects()
-    {     
+    {
         return Auth::User()->isAgent();
     }
 
 
 
     public function viewAny(User $user)
-    {
-        
-    }
+    { }
 
 
     /**
@@ -68,9 +67,7 @@ class ProspectPolicy
      */
     public function update(User $user, Prospect $prospect)
     {
-        return $user->id === $prospect->user_id 
-        ? Response::allow() 
-        : Response::deny('The prospect must be yours');
+        return $user->id === $prospect->user_id;
     }
 
     /**
