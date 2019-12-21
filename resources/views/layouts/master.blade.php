@@ -15,16 +15,9 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CMuli:300,400,500,700" rel="stylesheet">
     <!-- BEGIN VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/assets/app-assets/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/vendors/css/charts/morris.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/vendors/css/extensions/unslider.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/vendors/css/weather-icons/climacons.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/app-assets/css/app.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/app-assets/css/core/menu/menu-types/vertical-menu.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/css/core/colors/palette-gradient.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/css/core/colors/palette-gradient.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/css/plugins/calendars/clndr.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/app-assets/fonts/meteocons/style.min.css">
+
     <!-- END Page Level CSS-->
     <!-- BEGIN Custom CSS-->
     <link rel="stylesheet" type="text/css" href="/assets/assets/css/style.css">
@@ -148,18 +141,20 @@
             <li><a class="menu-item" href="{{route('createProspect')}}" data-i18n="nav.dash.ecommerce">Create a Prospect</a>  
               @endcan 
               </li> 
-              @switch(Auth::User()->role)
-                  @case('agent')
-                      <li><a class="menu-item" href="" data-i18n="nav.dash.project">My Prospects</a>
-                      @break
-                  @default
-                       <li><a class="menu-item" href="" data-i18n="nav.dash.project">All Prospects</a>
-              @endswitch
-              </li>
+              @can('allProspects', Auth::User())
+              <li><a class="menu-item" href="{{route('allProspects')}}" data-i18n="nav.dash.project">All Prospects</a> </li> 
+              @elsecan('myProspects', Auth::User())
+              <li><a class="menu-item" href="{{route('allProspects')}}" data-i18n="nav.dash.project">My Prospects</a> </li>        
+              @endcan
+            
               <li><a class="menu-item" href="dashboard-analytics.html" data-i18n="nav.dash.analytics">Conditionally Offered</a>
               </li>
-              <li><a class="menu-item" href="dashboard-crm.html" data-i18n="nav.dash.crm">Admission Offered</a>
+                   
+              <li><a class="menu-item" href="dashboard-crm.html" data-i18n="nav.dash.crm">Offered Admission</a>
               </li>
+             
+
+
               <li><a class="menu-item" href="dashboard-fitness.html" data-i18n="nav.dash.fitness">Fitness</a>
               </li>
             </ul>

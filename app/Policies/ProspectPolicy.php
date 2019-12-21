@@ -19,14 +19,14 @@ class ProspectPolicy
      * @return mixed
      */
 
-    public function allProspects()
+    public function allProspects($user)
     {
-        return Auth::User()->isSuperAdmin() || Auth::User()->isAdmin();
+        return $user->isSuperAdmin() || $user->isAdmin();
     }
 
-    public function myProspects()
+    public function myProspects($user)
     {
-        return Auth::User()->isAgent();
+        return $user->isAgent();
     }
 
 

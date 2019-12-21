@@ -8,7 +8,12 @@
                                 <div class="pb-1">
                                     <div class="clearfix mb-1">
                                         <i class="icon-star font-large-1 blue-grey float-left mt-1"></i>
-                                    <span class="font-large-2 text-bold-300 info float-right">{{Auth::User()->prospects()->count()}}</span>
+                                        @can('allProspects', Auth::User())
+                                        <span class="font-large-2 text-bold-300 info float-right">{{$prospects->count()}}</span>    
+                                        @elsecan('myProspects', Auth::User())
+                                        <span class="font-large-2 text-bold-300 info float-right">{{Auth::User()->prospects()->count()}}</span>    
+                                        @endcan
+                                    
                                     </div>
                                     <div class="clearfix">
                                         <span class="text-muted">Prospects</span>

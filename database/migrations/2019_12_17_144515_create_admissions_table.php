@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddAdmissionStatusToProspectsTable extends Migration
+class CreateAdmissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddAdmissionStatusToProspectsTable extends Migration
      */
     public function up()
     {
-        Schema::table('prospects', function (Blueprint $table) {
-            $table->string('admission')->default('pending');
+        Schema::create('admissions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddAdmissionStatusToProspectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('prospects', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('admissions');
     }
 }

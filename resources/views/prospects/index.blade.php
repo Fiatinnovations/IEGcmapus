@@ -50,20 +50,47 @@
                                             Action</th></tr>
                                 </thead>
                                 <tbody>   
-                                    @foreach ($agentProspects as $prospect)
-                                    <tr role="row" class="odd">
-                                    <td class="sorting_1">{{$prospect->first_name}}</td>
-                                    <td>{{$prospect->last_name}}</td>
-                                    <td>{{$prospect->university->name}}</td>
-                                    <td>{{$prospect->email}}</td>
-                                    <td>{{$prospect->admission}}</td>
-                                            <td>
-                                            <button class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings mr-1"></i></button>
-                                            <div class="dropdown-menu arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"><a class="dropdown-item" href="{{route('prospect', $prospect->slug)}}"><i class="fas fa-eye"></i> View</a><a class="dropdown-item" href="#"><i class="fa fa-refresh" aria-hidden="true"></i> Update</a><a onclick="return confirm('Do you want to delete this Prospect ?')" class="dropdown-item" href="{{route('deleteprospect', $prospect->slug)}}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
-                                            </div>      
-                                            </td>
-                                        </tr>  
-                                    @endforeach    
+
+                                    @switch(Auth::User()->role)
+                                        @case('agent')
+                                        @foreach ($agentProspects as $prospect)
+                                        <tr role="row" class="odd">
+                                        <td class="sorting_1">{{$prospect->first_name}}</td>
+                                        <td>{{$prospect->last_name}}</td>
+                                        <td>{{$prospect->university->name}}</td>
+                                        <td>{{$prospect->email}}</td>
+                                        <td>{{$prospect->admission->name}}</td>
+                                                <td>
+                                                <button class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings mr-1"></i></button>
+                                                <div class="dropdown-menu arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"><a class="dropdown-item" href="{{route('prospect', $prospect->slug)}}"><i class="fas fa-eye"></i> View</a><a class="dropdown-item" href="{{route('updateprospect', $prospect->slug)}}"><i class="fa fa-refresh" aria-hidden="true"></i> Update</a><a onclick="return confirm('Do you want to delete this Prospect ?')" class="dropdown-item" href="{{route('deleteprospect', $prospect->slug)}}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                                </div>      
+                                                </td>
+                                            </tr>  
+                                        @endforeach
+                                            
+                                            @break
+                                        @case('Admin')
+                                        @foreach ($prospects as $prospect)
+                                        <tr role="row" class="odd">
+                                        <td class="sorting_1">{{$prospect->first_name}}</td>
+                                        <td>{{$prospect->last_name}}</td>
+                                        <td>{{$prospect->university->name}}</td>
+                                        <td>{{$prospect->email}}</td>
+                                        <td>{{$prospect->admission->name}}</td>
+                                                <td>
+                                                <button class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings mr-1"></i></button>
+                                                <div class="dropdown-menu arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"><a class="dropdown-item" href="{{route('prospect', $prospect->slug)}}"><i class="fas fa-eye"></i> View</a><a class="dropdown-item" href="{{route('showoffer', $prospect->slug)}}"><i class="fa fa-refresh" aria-hidden="true"></i> Update</a><a onclick="return confirm('Do you want to delete this Prospect ?')" class="dropdown-item" href="{{route('deleteprospect', $prospect->slug)}}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                                </div>      
+                                                </td>
+                                            </tr>  
+                                        @endforeach
+                                            
+                                            @break
+                                        @default
+                                            
+                                    @endswitch
+
+                                       
                                
                                 </tbody>
 
